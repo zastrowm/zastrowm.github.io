@@ -34,7 +34,7 @@
 /******/ 	__webpack_require__.c = installedModules;
 
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "/assets/";
+/******/ 	__webpack_require__.p = "public";
 
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(0);
@@ -46,6 +46,7 @@
 
 	
 	__webpack_require__(1);
+
 	var React = __webpack_require__(5);
 
 
@@ -100,6 +101,10 @@
 	    this.quantity = new FormattedValue(false);
 	    this.unitCost = new FormattedValue(true);
 	  }
+
+	  Object.defineProperty(PriceQuantity.prototype,"isValid",{configurable:true,get:function() {"use strict";
+	    return this.quantity != 0 && this.price != 0;
+	  }});
 
 	  Object.defineProperty(PriceQuantity.prototype,"update",{writable:true,configurable:true,value:function() {"use strict";
 	    this.unitCost.value = this.price / (this.quantity | 1);
@@ -169,6 +174,18 @@
 	    Notifications.notify("focused", next);
 	  }});
 
+	  Object.defineProperty(App.prototype,"startAgain",{writable:true,configurable:true,value:function() {"use strict";
+	    if (!this.right.isValid || this.left.unitCost < this.right.unitCost) {
+	      this.right.reset();
+	    } else {
+	      this.left.price.value = this.right.price.value;
+	      this.left.quantity.value = this.right.quantity.value;
+	      this.right.reset();
+	    }
+
+	    Notifications.notify("focused", this.right.price);
+	  }});
+
 	  Object.defineProperty(App.prototype,"movePrevious",{writable:true,configurable:true,value:function() {"use strict";
 	    var index = this.all.indexOf(this.focused);
 	    // + 3 because we don't want negatives, so -1 + 4
@@ -190,7 +207,7 @@
 	    return (
 	      React.createElement("div", {className: classes, 
 	           onClick: function()  {return Notifications.notify("focused", viewModel);}}, 
-	      viewModel.toString(), 
+	          React.createElement("span", {className: "text"}, viewModel.toString()), 
 	        React.createElement("div", {className: "tip"}, tip)
 	     ));
 	  }});
@@ -201,15 +218,16 @@
 	var ____Class1=React.Component;for(var ____Class1____Key in ____Class1){if(____Class1.hasOwnProperty(____Class1____Key)){PriceQuantityView[____Class1____Key]=____Class1[____Class1____Key];}}var ____SuperProtoOf____Class1=____Class1===null?null:____Class1.prototype;PriceQuantityView.prototype=Object.create(____SuperProtoOf____Class1);PriceQuantityView.prototype.constructor=PriceQuantityView;PriceQuantityView.__superConstructor__=____Class1;function PriceQuantityView(){"use strict";if(____Class1!==null){____Class1.apply(this,arguments);}}
 
 	  Object.defineProperty(PriceQuantityView.prototype,"render",{writable:true,configurable:true,value:function() {"use strict";
-	    console.log("rendered");
-
 	    var priceQuantity = this.props.viewModel;
 
 	    return (
 	      React.createElement("div", {className: "side"}, 
 	        React.createElement(FormattedValueView, {type: "price", viewModel: priceQuantity.price}), 
 	        React.createElement(FormattedValueView, {type: "quantity", viewModel: priceQuantity.quantity}), 
-	        React.createElement("div", {className: "pricePerUnit"}, priceQuantity.unitCost.toString(), React.createElement("div", {className: "tip"}, "price/unit"))
+	        React.createElement("div", {className: "pricePerUnit"}, 
+	          React.createElement("span", {className: "text"}, priceQuantity.unitCost.toString()), 
+	          React.createElement("div", {className: "tip"}, "price/unit")
+	        )
 	      )
 	    )
 	  }});
@@ -235,22 +253,22 @@
 	        React.createElement("button", {onClick: function()  {return Notifications.notify("update", 7);}}, "7"), 
 	        React.createElement("button", {onClick: function()  {return Notifications.notify("update", 8);}}, "8"), 
 	        React.createElement("button", {onClick: function()  {return Notifications.notify("update", 9);}}, "9"), 
-	        React.createElement("button", {onClick: function()  {return Notifications.notify("new");}}, "NEXT"), 
+	        React.createElement("button", {onClick: function()  {return Notifications.notify("reset");}}, React.createElement("span", {className: "icon"}, "")), 
 	        React.createElement("br", null), 
 	        React.createElement("button", {onClick: function()  {return Notifications.notify("update", 4);}}, "4"), 
 	        React.createElement("button", {onClick: function()  {return Notifications.notify("update", 5);}}, "5"), 
 	        React.createElement("button", {onClick: function()  {return Notifications.notify("update", 6);}}, "6"), 
-	        React.createElement("button", {onClick: function()  {return Notifications.notify("next");}}, ">"), 
+	        React.createElement("button", {onClick: function()  {return Notifications.notify("next");}}, " "), 
 	        React.createElement("br", null), 
 	        React.createElement("button", {onClick: function()  {return Notifications.notify("update", 1);}}, "1"), 
 	        React.createElement("button", {onClick: function()  {return Notifications.notify("update", 2);}}, "2"), 
 	        React.createElement("button", {onClick: function()  {return Notifications.notify("update", 3);}}, "3"), 
-	        React.createElement("button", {onClick: function()  {return Notifications.notify("clear");}}, "-"), 
+	        React.createElement("button", {onClick: function()  {return Notifications.notify("new");}}, React.createElement("span", {className: "icon"}, "")), 
 	        React.createElement("br", null), 
-	        React.createElement("button", {onClick: function()  {return Notifications.notify("previous");}}, "<"), 
+	        React.createElement("button", {onClick: function()  {return Notifications.notify("previous");}}, React.createElement("span", {className: "icon"}, "")), 
 	        React.createElement("button", {onClick: function()  {return Notifications.notify("update", 0);}}, "0"), 
-	        React.createElement("button", {onClick: function()  {return Notifications.notify("next");}}, ">"), 
-	        React.createElement("button", {onClick: function()  {return Notifications.notify("reset");}}, "RES"), 
+	        React.createElement("button", {onClick: function()  {return Notifications.notify("next");}}, React.createElement("span", {className: "icon"}, "")), 
+	        React.createElement("button", {onClick: function()  {return Notifications.notify("clear");}}, React.createElement("span", {className: "icon"}, "")), 
 	        React.createElement("br", null)
 
 	      )
@@ -327,7 +345,7 @@
 
 	exports = module.exports = __webpack_require__(3)();
 	exports.push([module.id, "@import url(http://fonts.googleapis.com/css?family=Roboto);", ""]);
-	exports.push([module.id, "\n\nbody, html, .app {\n  width: 100%;\n  height: 100%;\n  font-family: 'Roboto', sans-serif;\n}\n\n.app {\n  max-width: 500px;\n  margin: 0 auto;\n}\n\n.display {\n  height: 60%;\n\n  margin: 0 auto;\n\n  display: flex;\n  flex-direction: row;\n}\n\n.display .side {\n  width: 50%;\n  height: 100%;\n}\n\n.display .price, .display .quantity, .display .pricePerUnit{\n  height: 33%;\n  font-size: 5vh;\n  position: relative;\n}\n\n.tip {\n  position: absolute;\n  top: 10%;\n  left: 10%;\n  font-size: .1vh;\n  opacity: .3;\n}\n\n.display .price, .display .quantity {\n border: 1px solid rgba(147, 209, 244, .1)\n}\n\n.display .pricePerUnit {\n  background-color: rgba(147, 209, 244, .1)\n}\n\n.input {\n  height: 40%;\n\n  flex-grow: 0;\n  background-color: pink;\n\n  display: flex;\n  flex-direction: row;\n  justify-content: center;\n}\n\n.input > div {\n  width: 100%;\n  height: 100%;\n}\n\n.input button {\n  width: 25%;\n  height: 25%;\n  border: none;\n  margin: 0px;\n  padding: 0px;\n  background-color: #607D8B;\n  color: white;\n  font-size: 5vh;\n}\n\n.price, .quantity, .pricePerUnit {\n  display: flex;\n  text-align: center;\n  align-items: center;\n  justify-content: center;\n}\n\n.focused {\n  background-color: yellow;\n}\n", ""]);
+	exports.push([module.id, "\n\nbutton:focus {\n  outline:0;\n}\n\n* {\n  -webkit-touch-callout: none;\n  -webkit-user-select: none;\n  -khtml-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none;\n}\n\nbody, html, .app {\n  width: 100%;\n  height: 100%;\n  font-family: 'Roboto', sans-serif;\n  border: none;\n  padding: 0;\n  margin: 0;\n}\n\n.icon{\n  font-family: 'fontello';\n  font-size: .8em;\n}\n\n.app {\n  max-width: 500px;\n  margin: 0 auto;\n\n  /* keep any gaps the color of the price per unit box */\n  background-color: #3F51B5;\n}\n\n.display {\n  height: 60%;\n\n  margin: 0 auto;\n\n  display: flex;\n  flex-direction: row;\n}\n\n.display .side {\n  width: 50%;\n  height: 100%;\n}\n\n.display .price, .display .quantity, .display .pricePerUnit{\n  height: 33%;\n  font-size: 5vh;\n  position: relative;\n}\n\n.tip {\n  position: absolute;\n  top: 5%;\n  left: 5%;\n  font-size: 3vh;\n  opacity: .26;\n}\n\n.display .price, .display .quantity {\n  border: 1px solid #ECEFF1;\n  background-color: white;\n}\n\n.display .pricePerUnit {\n  color: white;\n}\n\n.input {\n  height: 40%;\n\n  flex-grow: 0;\n  background-color: #607D8B;\n\n  display: flex;\n  flex-direction: row;\n  justify-content: center;\n}\n\n.input > div {\n  width: 100%;\n  height: 100%;\n}\n\n.input button {\n  width: 25%;\n  height: 25%;\n  border: none;\n  margin: 0px;\n  padding: 0px;\n  color: white;\n  font-size: 5vh;\n  background-color: transparent;\n}\n\n.price, .quantity, .pricePerUnit {\n  display: flex;\n  text-align: center;\n  align-items: center;\n  justify-content: center;\n  position: relative;\n}\n\n.text {\n  position: relative;\n  top: 1.5vh;\n}\n\n.focused {\n  background-color: rgba(236, 239, 241, 1) !important;\n}\n\nbutton:active {\n  background-color: rgba(255, 255, 255, .1);\n}\n", ""]);
 
 /***/ },
 /* 3 */
