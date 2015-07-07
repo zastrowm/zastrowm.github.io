@@ -1,4 +1,5 @@
 Source code for <http://zastrowm.github.io>:
 
-  - Music: http://zastrowm.github.io/music.html
+  - Music: http://web.programdotrun.com/music.html
+  - ComparePrices Mobile "App": http://web.programdotrun.com/ComparePrices/
 
